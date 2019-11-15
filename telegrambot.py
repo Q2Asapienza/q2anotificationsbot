@@ -21,8 +21,8 @@ class Bot():
         '''Carica gli utenti alla quale inviare i messaggi'''
         with open('data.json', encoding='utf-8') as f:
             data = json.load(f)
-            users = set(data['users'])
-            offset = data['offset']
+            users = set(data['users']) if 'users' in data else set()
+            offset = data['offset'] if 'offset' in data else None
         return users, offset
 
     def getMessages(self):
