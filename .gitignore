@@ -124,6 +124,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
+#runtime created files
 data.json
-config.py
+crawler.json
