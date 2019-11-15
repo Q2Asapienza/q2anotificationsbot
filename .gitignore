@@ -126,8 +126,5 @@ dmypy.json
 
 
 appunti.txt
-config.py
-crawler.py
 data.json
 log.txt
-main.py
