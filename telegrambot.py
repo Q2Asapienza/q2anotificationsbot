@@ -9,6 +9,7 @@ class Bot():
     def __init__(self):
         self.bot = self.startBot()
         self.users, self.offset = self.getData()
+        self.getMessages()
 
     def startBot(self):
         '''Avvia e restituisce il bot.'''
@@ -39,23 +40,23 @@ class Bot():
             self.offset = offset + 1
             self.updateData()
 
-    def reply(self, text, chatid):
+    def reply(self, text, chatId):
         '''Risponde agli utenti'''
         if text == r'/start':
-            self.sendMessage(chatid, 'Ti terrò aggiornato sui nuovi post!')
-            self.users.add(chatid)
+            self.sendMessage(chatId, 'Ti terrò aggiornato sui nuovi post!')
+            self.users.add(chatId)
         elif text == r'/stop':
-            self.sendMessage(chatid, 'Non ti invierò più notifiche.')
-            self.users.discard(chatid)
+            self.sendMessage(chatId, 'Non ti invierò più notifiche.')
+            self.users.discard(chatId)
         else:
-            self.sendMessage(chatid, r'''Mi dispiace, non ti ho capito.
+            self.sendMessage(chatId, r'''Mi dispiace, non ti ho capito.
 Usa uno dei due comandi /start o /stop.''')
 
-    def sendMessage(self, chatid, text):
+    def sendMessage(self, chatId, text):
         while True:
             try:
                 print(ctime(), 'Invio messaggio in corso.')
-                self.bot.sendMessage(chatid, text, parse_mode='HTML',
+                self.bot.sendMessage(chatId, text, parse_mode='HTML',
                                      disable_web_page_preview=True)
             except Exception as e:
                 print(ctime(), 'Invio fallito. Riproverò tra 5 secondi.')
