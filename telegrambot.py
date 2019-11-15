@@ -1,4 +1,3 @@
-import Q2A_Pi
 import config
 import telepot
 import json
