@@ -38,6 +38,9 @@ def getNotifications(fromActivity = True):
         print(f"crawler.py: {CRAWLED_JSON_PATH} read correctly")
         site = __getSiteAsJSON(fromActivity)
 
+        #finding differences
+        notifications = __diffCheck(site,oldSite)
+
         #updating old dict with new datas
         oldSite.update(Q2ADictToSerializable(site))
         #dumping serializable dict to file
@@ -50,6 +53,7 @@ def getNotifications(fromActivity = True):
         json.dump(Q2ADictToSerializable(site), open(CRAWLED_JSON_PATH,'w'))
 
     print(f"crawler.py: {CRAWLED_JSON_PATH} wrote correctly")
+
     return notifications
 
 
@@ -60,8 +64,11 @@ def __diffCheck(questions,oldQuestions):
     for questionID in questions:
         #checking difference of question
         diff = __elementNewOrEdited(questionID,questions,oldQuestions)
+
         if(diff[Keys.TYPE] != None):
             differences.append(diff)
+
+        #TODO: CHECK BEST ANSWER
 
         #if this element has been just added i don't check differences for childs
         if(diff[Keys.TYPE] == NOTIFTYPE_ADD):
@@ -77,6 +84,7 @@ def __diffCheck(questions,oldQuestions):
         for answerID in answers:
             #checking difference of question
             ansDiff = __elementNewOrEdited(answerID,answers,oldAnswers)
+
             if(ansDiff[Keys.TYPE] != None):
                 differences.append(ansDiff)
 
