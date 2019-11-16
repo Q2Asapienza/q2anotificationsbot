@@ -124,6 +124,17 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#vscode
+.vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
+#bot token
+config.py
+
 #runtime created files
 data.json
 crawled.json

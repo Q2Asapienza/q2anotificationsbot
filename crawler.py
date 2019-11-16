@@ -34,12 +34,14 @@ def getNotifications(fromActivity = True):
     try:
         #READING THE OLD WEBSITE
         with open(CRAWLED_JSON_PATH,'r') as crawled_file:
-            oldSite:dict = json.load(crawled_file)
+            oldSite = json.load(crawled_file)
         print(f"crawler.py: {CRAWLED_JSON_PATH} read correctly")
         site = __getSiteAsJSON(fromActivity)
 
+        #updating old dict with new datas
+        oldSite.update(Q2ADictToSerializable(site))
         #dumping serializable dict to file
-        json.dump(oldSite.update(Q2ADictToSerializable(site)), open(CRAWLED_JSON_PATH,'w'))
+        json.dump(oldSite, open(CRAWLED_JSON_PATH,'w'))
     except IOError:
         #OLD WEBSITE NOT FOUND, IT'S FIRST RUN, DUMPING WHOLE WEBSITE
         print(f"crawler.py: {CRAWLED_JSON_PATH} not found, assuming it's first run")
