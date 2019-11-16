@@ -24,9 +24,9 @@ def formatMessage(notification):
         question = data[Keys.PARENT]
 
         if(notification[Keys.TYPE] == NOTIFTYPE_ADD):
-            text = f'{editor} added a answer to the question: {question[Keys.TITLE]} (from {answer[Keys.USER]})'
+            text = f'{editor} added a answer to the question: {question[Keys.TITLE]} (from {answer[Keys.CREATED][Keys.USER]})'
         elif(notification[Keys.TYPE] == NOTIFTYPE_EDIT):
-            text = f'{editor} edited {creator} answer to the question: {question[Keys.TITLE]} (from {answer[Keys.USER]})'
+            text = f'{editor} edited {creator} answer to the question: {question[Keys.TITLE]} (from {answer[Keys.CREATED][Keys.USER]})'
 
     #CASE COMMENT
     elif(data[Keys.TYPE] == Keys.TYPE_COMMENTS):
@@ -36,9 +36,7 @@ def formatMessage(notification):
         if(notification[Keys.TYPE] == NOTIFTYPE_ADD):
             text = f'{editor} added a comment to {answer[Keys.CREATED][Keys.USER]}\'s answer to the question: {question[Keys.TITLE]}'
         elif(notification[Keys.TYPE] == NOTIFTYPE_EDIT):
-            text = f'{editor} edited {creator} comment to {answer[Keys.USER]}\'s answer to the question: {question[Keys.TITLE]}'
-        
-    
+            text = f'{editor} edited {creator} comment to {answer[Keys.CREATED][Keys.USER]}\'s answer to the question: {question[Keys.TITLE]}'
     
     return text
 

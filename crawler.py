@@ -1,5 +1,4 @@
-#!/usr/bin/python3
-from Q2A_Pi import Q2A, Keys, Q2ADictToSerializable # pylint: disable=unused-import
+from Q2A_Pi import Q2A, Keys, Q2ADictToSerializable
 
 import json
 
@@ -56,40 +55,50 @@ def getNotifications(fromActivity = True):
     print(f"crawler.py: {CRAWLED_JSON_PATH} wrote correctly")
     return notifications
 
-def __diffCheck(site,oldSite):
+def __diffCheck(questions,oldQuestions):
     #CHECKING DIFFERENCES TO CREATE NOTIFICATIONS
     differences = []
-    for questionID in site:
+    for questionID in questions:
         #checking difference of question
-        diff = __elementNewOrEdited(questionID,site,oldSite)
-
-        #if the question has not just been added then it means it has been edited or there were no changes
-        #so i need to check the answers or the comments to find
-        if(diff[Keys.TYPE] != NOTIFTYPE_ADD):
-            #region checking difference of answers
-            answers = site[questionID][Keys.TYPE_ANSWERS]
-            try:
-                oldAnswers = oldSite[questionID][Keys.TYPE_ANSWERS]
-            except Exception:
-                oldAnswers = {}
-            
-            for answerID in answers:
-                diff = __elementNewOrEdited(answerID,answers,oldAnswers)
-
-                if(diff[Keys.TYPE] != NOTIFTYPE_ADD):
-                    #region checking difference of comments
-                    comments = answers[answerID][Keys.TYPE_COMMENTS]
-                    try:
-                        oldComments = oldAnswers[answerID][Keys.TYPE_COMMENTS]
-                    except Exception:
-                        oldAnswers = {}
-                    for commentID in comments:
-                        diff = __elementNewOrEdited(commentID,comments,oldComments)
-                    #endregion
-            
-            #endregion
+        diff = __elementNewOrEdited(questionID,questions,oldQuestions)
         if(diff[Keys.TYPE] != None):
             differences.append(diff)
+
+        #if this element has been just added i don't check differences for childs
+        if(diff[Keys.TYPE] == NOTIFTYPE_ADD):
+            continue
+        
+        #region checking difference of answers
+        answers = questions[questionID][Keys.TYPE_ANSWERS]
+        try:
+            oldAnswers = oldQuestions[questionID][Keys.TYPE_ANSWERS]
+        except Exception:
+            oldAnswers = {}
+        
+        for answerID in answers:
+            #checking difference of question
+            ansDiff = __elementNewOrEdited(answerID,answers,oldAnswers)
+            if(ansDiff[Keys.TYPE] != None):
+                differences.append(ansDiff)
+
+            #if this element has been just added i don't check differences for childs
+            if(ansDiff[Keys.TYPE] == NOTIFTYPE_ADD):
+                continue
+
+            #region checking difference of comments
+            comments = answers[answerID][Keys.TYPE_COMMENTS]
+            try:
+                oldComments = oldAnswers[answerID][Keys.TYPE_COMMENTS]
+            except Exception:
+                oldAnswers = {}
+            for commentID in comments:
+                commDiff = __elementNewOrEdited(commentID,comments,oldComments)
+
+                if(commDiff[Keys.TYPE] != None):
+                    differences.append(commDiff)
+            #endregion
+            
+        #endregion
     
     return differences
 
