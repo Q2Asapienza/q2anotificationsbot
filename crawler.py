@@ -40,7 +40,7 @@ def getNotifications(fromActivity = True):
 
         #dumping serializable dict to file
         json.dump(oldSite.update(Q2ADictToSerializable(site)), open(CRAWLED_JSON_PATH,'w'))
-    except Exception:
+    except IOError:
         #OLD WEBSITE NOT FOUND, IT'S FIRST RUN, DUMPING WHOLE WEBSITE
         print(f"crawler.py: {CRAWLED_JSON_PATH} not found, assuming it's first run")
 
