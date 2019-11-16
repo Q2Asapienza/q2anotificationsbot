@@ -109,5 +109,5 @@ def __elementNewOrEdited(elementID,elements,oldElements):
     return diff
 
 if __name__ == '__main__':
-    print(getNotifications())
+    #print(getNotifications())
     pass
