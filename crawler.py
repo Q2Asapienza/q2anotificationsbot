@@ -26,7 +26,7 @@ def __getSiteAsJSON(fromActivity = True):
     #getting the comments from questions
     q2a.getCommentsFromAnswers(answers)
 
-    #removing parent references to make it serializable without circular references
+    
     return questions
 
 def getNotifications(fromActivity = True):
@@ -75,15 +75,17 @@ def __diffCheck(site,oldSite):
             
             for answerID in answers:
                 diff = __elementNewOrEdited(answerID,answers,oldAnswers)
-                #region checking difference of comments
-                comments = answers[answerID][Keys.TYPE_COMMENTS]
-                try:
-                    oldComments = oldAnswers[answerID][Keys.TYPE_COMMENTS]
-                except Exception:
-                    oldAnswers = {}
-                for commentID in comments:
-                    diff = __elementNewOrEdited(commentID,comments,oldComments)
-                #endregion
+
+                if(diff[Keys.TYPE] != NOTIFTYPE_ADD):
+                    #region checking difference of comments
+                    comments = answers[answerID][Keys.TYPE_COMMENTS]
+                    try:
+                        oldComments = oldAnswers[answerID][Keys.TYPE_COMMENTS]
+                    except Exception:
+                        oldAnswers = {}
+                    for commentID in comments:
+                        diff = __elementNewOrEdited(commentID,comments,oldComments)
+                    #endregion
             
             #endregion
         if(diff[Keys.TYPE] != None):
