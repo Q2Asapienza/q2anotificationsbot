@@ -30,25 +30,24 @@ class Bot():
         messages = self.bot.getUpdates(offset=self.offset)
         offset = self.offset
         for message in messages:
-            offset = message['update_id']
+            offset = message['update_id']+1
             chatId = message['message']['from']['id']
             text = message['message']['text']
-            print(self.offset)
             self.reply(text, chatId)
         if offset != self.offset:
-            self.offset = offset + 1
+            self.offset = offset
             self.updateData()
 
     def reply(self, text, chatId):
         '''Risponde agli utenti'''
-        if text == r'/start':
+        if text == '/start':
             self.sendMessage(chatId, 'Ti terrò aggiornato sui nuovi post!')
             self.users.add(chatId)
-        elif text == r'/stop':
+        elif text == '/stop':
             self.sendMessage(chatId, 'Non ti invierò più notifiche.')
             self.users.discard(chatId)
         else:
-            self.sendMessage(chatId, r'''Mi dispiace, non ti ho capito.
+            self.sendMessage(chatId, '''Mi dispiace, non ho capito.
 Usa uno dei due comandi /start o /stop.''')
 
     def sendMessage(self, chatId, text):
