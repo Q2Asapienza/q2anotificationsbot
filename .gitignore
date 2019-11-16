@@ -126,4 +126,4 @@ dmypy.json
 
 #runtime created files
 data.json
-crawler.json
+crawled.json

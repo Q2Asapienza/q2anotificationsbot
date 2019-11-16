@@ -1,23 +1,22 @@
-import telegrambot
-import Q2A_Pi
-
+#!/usr/bin/python3
+import telegrambot #TODO: telegrambot cannot be imported due to config missing
+import crawler
 
 def formatMessage(data):
     text = ''
     return text
 
-
 def main():
+    #initializing telegram bot
     bot = telegrambot.Bot()
-    q2a = Q2A_Pi.qualcosa #TODO: get questions
-    newActivities = q2a.newActivities
 
-    for activity in newActivities:
-        text = formatMessage(activity)
+    notifications = crawler.getNotifications()
+
+    for notification in notifications:
+        text = formatMessage(notification)
         for chatId in bot.users:
             bot.sendMessage(chatId, text)
 
 
 if __name__ == '__main__':
-    # main()
-    pass
+    main()
