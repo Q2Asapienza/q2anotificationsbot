@@ -7,6 +7,7 @@ CRAWLED_JSON_PATH = './crawled.json'
 #types
 NOTIFTYPE_ADD = 'add'
 NOTIFTYPE_EDIT = 'edit'
+NOTIFTYPE_BEST = 'best'
 
 #data
 DATA = 'data'
@@ -30,30 +31,26 @@ def __getSiteAsJSON(fromActivity = True):
 
 def getNotifications(fromActivity = True):
     notifications = []
-
-    #CRAWLING THE WHOLE WEBSITE
-    site = __getSiteAsJSON(fromActivity)
-
-    #READING THE OLD WEBSITE
-    #if there is an error reading the file it will just proceed to serialize the new file
-    # (therefore assuming it's his first launchand there are no notifications to send)
-    oldSite = None
     try:
+        #READING THE OLD WEBSITE
         with open(CRAWLED_JSON_PATH,'r') as crawled_file:
-            oldSite = json.load(crawled_file)
+            oldSite:dict = json.load(crawled_file)
         print(f"crawler.py: {CRAWLED_JSON_PATH} read correctly")
+        site = __getSiteAsJSON(fromActivity)
+
+        #dumping serializable dict to file
+        json.dump(oldSite.update(Q2ADictToSerializable(site)), open(CRAWLED_JSON_PATH,'w'))
     except Exception:
-        pass
-
-    if oldSite == None:
+        #OLD WEBSITE NOT FOUND, IT'S FIRST RUN, DUMPING WHOLE WEBSITE
         print(f"crawler.py: {CRAWLED_JSON_PATH} not found, assuming it's first run")
-    else:
-        notifications = __diffCheck(site,oldSite)
 
-    #dumping serializable dict to file
-    json.dump(Q2ADictToSerializable(site), open(CRAWLED_JSON_PATH,'w'))
+        site = __getSiteAsJSON(False)
+        json.dump(Q2ADictToSerializable(site), open(CRAWLED_JSON_PATH,'w'))
+
     print(f"crawler.py: {CRAWLED_JSON_PATH} wrote correctly")
     return notifications
+
+
 
 def __diffCheck(questions,oldQuestions):
     #CHECKING DIFFERENCES TO CREATE NOTIFICATIONS
