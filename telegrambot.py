@@ -19,10 +19,17 @@ class Bot():
 
     def getData(self):
         '''Carica gli utenti alla quale inviare i messaggi'''
-        with open('data.json', encoding='utf-8') as f:
-            data = json.load(f)
-            users = set(data['users']) if 'users' in data else set()
-            offset = data['offset'] if 'offset' in data else None
+        try:
+            with open('data.json', encoding='utf-8') as f:
+                data = json.load(f)
+                users = set(data['users']) if 'users' in data else set()
+                offset = data['offset'] if 'offset' in data else None
+        except FileNotFoundError:
+            with open('data.json', mode='w', encoding='utf-8') as f:
+                data = {}
+                json.dump(data, f)
+                users = []
+                offset = None
         return users, offset
 
     def getMessages(self):
