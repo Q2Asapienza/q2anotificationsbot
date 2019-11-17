@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import telegrambot
-from crawler import getNotifications, DATA
+import crawler
 from Q2A_Pi import Keys
 import time
 from datetime import datetime
@@ -9,7 +9,7 @@ from datetime import datetime
 def formatMessage(notification):
     text = '''New Activity in {}
 {} {} by {}'''
-    data = notification[DATA]
+    data = notification[crawler.DATA]
     nType = data[Keys.TYPE]  # Notification Type
     # Case Question
     if nType == Keys.TYPE_QUESTIONS:
@@ -75,10 +75,12 @@ def getWhen(timestamp):
 
 
 def main():
+    crawler.excluded_keys = ['recategorized','blablabla']
+
     # initializing telegram bot
     bot = telegrambot.Bot()
 
-    notifications = getNotifications()
+    notifications = crawler.getNotifications()
 
     for notification in notifications:
         text = formatMessage(notification)
@@ -88,3 +90,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

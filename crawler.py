@@ -12,6 +12,8 @@ NOTIFTYPE_BEST = 'best'
 #data
 DATA = 'data'
 
+excluded_keys = ['']
+
 def __getSiteAsJSON(fromActivity = True):
     #initializing Q2A crawler
     q2a = Q2A()
@@ -118,7 +120,7 @@ def __elementNewOrEdited(elementID,elements,oldElements):
         diff[Keys.TYPE] = NOTIFTYPE_ADD
         diff[DATA]      = elements[elementID]
     #if the question has been modified
-    elif(elements[elementID][Keys.LAST_EDIT] != oldElements[elementID][Keys.LAST_EDIT]):
+    elif(elements[elementID][Keys.LAST_EDIT] != oldElements[elementID][Keys.LAST_EDIT] and oldElements[elementID][Keys.LAST_EDIT][Keys.WHAT]  not in excluded_keys):
         diff[Keys.TYPE] = NOTIFTYPE_EDIT
         diff[DATA]      = elements[elementID]
     
