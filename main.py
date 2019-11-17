@@ -88,7 +88,7 @@ def getWhen(timestamp):
 
 
 def main():
-    crawler.excluded_keys = ['recategorized','blablabla']
+    crawler.excluded_keys = ['recategorized', 'closed']
 
     # initializing telegram bot
     bot = telegrambot.Bot()
@@ -103,4 +103,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
