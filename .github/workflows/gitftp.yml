@@ -5,10 +5,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: git-ftp push
-      uses: sebastianpopp/git-ftp-action@releases/v2
-      with:
-        url: "ftp://ftp.federicocapece.com/www.federicocapece.com/api/q2anotificationsbot"
-        user: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
+    - name: git FTP PUSH
+      run: |
+      apt-get install git-ftp -y
+      git pull --recurse-submodules
+      git ftp push -u ${{ secrets.FTP_USER }} -p ${{ secrets.FTP_PASSWORD }} -f -v --syncroot "." "ftp://ftp.federicocapece.com/www.federicocapece.com/api/q2anotificationsbot"
