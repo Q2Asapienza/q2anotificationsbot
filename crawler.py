@@ -52,7 +52,7 @@ def getNotifications(fromActivity = True):
         site = __getSiteAsJSON(False)
         json.dump(Q2ADictToSerializable(site), open(CRAWLED_JSON_PATH,'w'))
 
-    print(f"crawler.py: {CRAWLED_JSON_PATH} wrote correctly")
+    print(f"NOTIFICATIONS:\n{notifications}")
 
     return notifications
 
