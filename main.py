@@ -27,13 +27,26 @@ def formatMessage(notification):
         question = answer[Keys.PARENT]
         who = data[Keys.LAST_EDIT][Keys.WHO]
         parentWho = answer[Keys.LAST_EDIT][Keys.WHO]
-        who = f'<a href="{buildUserLink(who)}">{who}</a> on <a href="{buildUserLink(parentWho)}">{parentWho}</a>\'s answer'
-
+        if parentWho != who:
+            who = f'<a href="{buildUserLink(who)}">{who}</a> on <a href="{buildUserLink(parentWho)}">{parentWho}</a>\'s answer'
+        else:
+            who = f'<a href="{buildUserLink(who)}">{who}</a> on its answer'
     title = question[Keys.TITLE]
     questionID = question[Keys.ID]
     title = f'<a href="{buildTitleLink(questionID)}">{title}</a>'
     otherID = data[Keys.ID]
     what = data[Keys.LAST_EDIT][Keys.WHAT]
+    if what == 'edited':
+        if nType == Keys.TYPE_COMMENTS:
+            what = 'comment edited'
+            who = data[Keys.LAST_EDIT][Keys.WHO]
+            who = f'<a href="{buildUserLink(who)}">{who}</a>'
+        elif nType == Keys.TYPE_ANSWERS:
+            what = 'answer edited'
+        else:
+            what = 'question edited'
+    elif what == 'selected':
+        what = 'answer selected'
     what = f'<a href="{buildWhatLink(nType, questionID, otherID)}">{what}</a>'
     when = getWhen(data[Keys.LAST_EDIT][Keys.WHEN])
     text = text.format(title, what, when, who)
