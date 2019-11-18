@@ -67,8 +67,8 @@ Usa uno dei due comandi /start o /stop.''')
                 print(ctime(), 'Invio fallito. Riproverò tra 5 secondi.')
                 print(e.__class__.__name__)
                 print(e)
-                sleep(5)
-                continue
+                # sleep(5)
+                # continue
             print(ctime(), 'Messaggio inviato con successo.')
             return
 
