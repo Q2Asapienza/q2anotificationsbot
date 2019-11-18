@@ -63,12 +63,15 @@ Usa uno dei due comandi /start o /stop.''')
                 print(ctime(), 'Invio messaggio in corso.')
                 self.bot.sendMessage(chatId, text, parse_mode='HTML',
                                      disable_web_page_preview=False)
+            except telepot.exception.BotWasBlockedError:
+                self.users.discard(chatId)
+                self.updateData
             except Exception as e:
                 print(ctime(), 'Invio fallito. Riproverò tra 5 secondi.')
                 print(e.__class__.__name__)
                 print(e)
-                # sleep(5)
-                # continue
+                sleep(5)
+                continue
             print(ctime(), 'Messaggio inviato con successo.')
             return
 
