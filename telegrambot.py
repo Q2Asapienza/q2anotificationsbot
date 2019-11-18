@@ -3,6 +3,8 @@ import telepot
 import json
 from time import ctime, sleep
 
+DATA_JSON  ='./data/telegrambot.json'
+
 
 class Bot():
     def __init__(self):
@@ -20,12 +22,12 @@ class Bot():
     def getData(self):
         '''Carica gli utenti alla quale inviare i messaggi'''
         try:
-            with open('data.json', encoding='utf-8') as f:
+            with open(DATA_JSON, encoding='utf-8') as f:
                 data = json.load(f)
                 users = set(data['users']) if 'users' in data else set()
                 offset = data['offset'] if 'offset' in data else None
         except FileNotFoundError:
-            with open('data.json', mode='w', encoding='utf-8') as f:
+            with open(DATA_JSON, mode='w', encoding='utf-8') as f:
                 data = {}
                 json.dump(data, f)
                 users = []
@@ -73,7 +75,7 @@ Usa uno dei due comandi /start o /stop.''')
 
     def updateData(self):
         '''Aggiorna gli utenti nel json'''
-        with open('data.json', mode='w', encoding='utf-8') as f:
+        with open(USERDATA_JSON, mode='w', encoding='utf-8') as f:
             data = {}
             data['offset'] = self.offset
             data['users'] = list(self.users)

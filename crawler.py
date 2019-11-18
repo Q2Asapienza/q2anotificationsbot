@@ -2,7 +2,7 @@ from Q2A_Pi import Q2A, Keys, Q2ADictToSerializable
 
 import json
 
-CRAWLED_JSON_PATH = './crawled.json'
+CRAWLED_JSON_PATH = './data/crawled.json'
 
 #types
 NOTIFTYPE_ADD = 'add'
@@ -120,7 +120,7 @@ def __elementNewOrEdited(elementID,elements,oldElements):
         diff[Keys.TYPE] = NOTIFTYPE_ADD
         diff[DATA]      = elements[elementID]
     #if the question has been modified
-    elif(elements[elementID][Keys.LAST_EDIT] != oldElements[elementID][Keys.LAST_EDIT] and oldElements[elementID][Keys.LAST_EDIT][Keys.WHAT]  not in excluded_keys):
+    elif(elements[elementID][Keys.LAST_EDIT] != oldElements[elementID][Keys.LAST_EDIT] and elements[elementID][Keys.LAST_EDIT][Keys.WHAT]  not in excluded_keys):
         diff[Keys.TYPE] = NOTIFTYPE_EDIT
         diff[DATA]      = elements[elementID]
     

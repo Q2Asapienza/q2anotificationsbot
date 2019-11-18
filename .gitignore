@@ -136,5 +136,10 @@ dmypy.json
 config.py
 
 #runtime created files
+data
+data/*
 data.json
 crawled.json
+
+#test file
+test.py
