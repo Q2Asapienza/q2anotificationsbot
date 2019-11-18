@@ -58,23 +58,22 @@ class Bot():
 Usa uno dei due comandi /start o /stop.''')
 
     def sendMessage(self, chatId, text):
-        while True:
-            try:
-                print(ctime(), 'Invio messaggio in corso.')
-                self.bot.sendMessage(chatId, text, parse_mode='HTML',
-                                     disable_web_page_preview=False)
-            except telepot.exception.BotWasBlockedError:
-                self.users.discard(chatId)
-                self.updateData
-            except Exception as e:
-                print(ctime(), 'Invio fallito.')  # Riproverò tra 5 secondi.')
-                print(e.__class__.__name__)
-                print(e)
-                return
-                # sleep(5)
-                # continue
-            print(ctime(), 'Messaggio inviato con successo.')
+        try:
+            print(ctime(), 'Invio messaggio in corso.')
+            self.bot.sendMessage(chatId, text, parse_mode='HTML',
+                                 disable_web_page_preview=False)
+        except telepot.exception.BotWasBlockedError:
+            print(ctime(), "L'utente ha bloccato il bot, lo rimuovo dalla lista degli utenti. Il suo ID era:", chatId)
+            self.users.discard(chatId)
+            self.updateData()
             return
+        except Exception as e:
+            print(ctime(), 'Invio fallito. ChatID:', chatId)
+            print(e.__class__.__name__)
+            print(e)
+            return
+        print(ctime(), 'Messaggio inviato con successo.')
+        return
 
     def updateData(self):
         '''Aggiorna gli utenti nel json'''
