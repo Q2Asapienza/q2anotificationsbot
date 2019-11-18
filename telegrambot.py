@@ -1,9 +1,9 @@
 import config
 import telepot
 import json
-from time import ctime, sleep
+from time import ctime
 
-DATA_JSON  ='./data/telegrambot.json'
+DATA_JSON = './data/telegrambot.json'
 
 
 class Bot():
@@ -79,7 +79,7 @@ Usa uno dei due comandi /start o /stop.''')
 
     def updateData(self):
         '''Aggiorna gli utenti nel json'''
-        with open(USERDATA_JSON, mode='w', encoding='utf-8') as f:
+        with open(DATA_JSON, mode='w', encoding='utf-8') as f:
             data = {}
             data['offset'] = self.offset
             data['users'] = list(self.users)
