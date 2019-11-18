@@ -65,6 +65,7 @@ Usa uno dei due comandi /start o /stop.''')
                                      disable_web_page_preview=False)
             except Exception as e:
                 print(ctime(), 'Invio fallito. Riproverò tra 5 secondi.')
+                print(e.__class__.__name__)
                 print(e)
                 sleep(5)
                 continue
