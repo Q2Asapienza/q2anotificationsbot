@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 
 #output date
-date +"%d/%m/%Y %H:%M"
+date +"%d-%m-%Y %H:%M"
 
 #update repository to last version
 git fetch --all

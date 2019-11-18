@@ -1,5 +1,5 @@
 from Q2A_Pi import Q2A, Keys, Q2ADictToSerializable
-from time import ctime
+import datetime
 
 import json
 
@@ -14,6 +14,11 @@ NOTIFTYPE_BEST = 'best'
 DATA = 'data'
 
 excluded_keys = ['']
+
+
+def ctime():
+    return datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
 
 def __getSiteAsJSON(fromActivity=True):
     # initializing Q2A crawler
@@ -50,7 +55,7 @@ def getNotifications(fromActivity=True):
         json.dump(oldSite, open(CRAWLED_JSON_PATH, 'w'))
     except IOError:
         # OLD WEBSITE NOT FOUND, IT'S FIRST RUN, DUMPING WHOLE WEBSITE
-        print(f"{ctime()}crawler.py: {CRAWLED_JSON_PATH} not found, assuming it's first run")
+        print(f"{ctime()}crawler.py: {CRAWLED_JSON_PATH}not found, assuming it's first run")
 
         site = __getSiteAsJSON(False)
         json.dump(Q2ADictToSerializable(site), open(CRAWLED_JSON_PATH, 'w'))

@@ -1,9 +1,13 @@
 import config
 import telepot
 import json
-from time import ctime
+import datetime
 
 DATA_JSON = './data/telegrambot.json'
+
+
+def ctime():
+    return datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
 
 class Bot():
