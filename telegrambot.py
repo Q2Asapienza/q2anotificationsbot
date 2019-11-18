@@ -62,7 +62,7 @@ Usa uno dei due comandi /start o /stop.''')
             try:
                 print(ctime(), 'Invio messaggio in corso.')
                 self.bot.sendMessage(chatId, text, parse_mode='HTML',
-                                     disable_web_page_preview=True)
+                                     disable_web_page_preview=False)
             except Exception as e:
                 print(ctime(), 'Invio fallito. Riproverò tra 5 secondi.')
                 print(e)
