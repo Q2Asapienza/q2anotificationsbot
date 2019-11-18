@@ -67,11 +67,12 @@ Usa uno dei due comandi /start o /stop.''')
                 self.users.discard(chatId)
                 self.updateData
             except Exception as e:
-                print(ctime(), 'Invio fallito. Riproverò tra 5 secondi.')
+                print(ctime(), 'Invio fallito.')  # Riproverò tra 5 secondi.')
                 print(e.__class__.__name__)
                 print(e)
-                sleep(5)
-                continue
+                return
+                # sleep(5)
+                # continue
             print(ctime(), 'Messaggio inviato con successo.')
             return
 
