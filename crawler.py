@@ -55,7 +55,8 @@ def getNotifications(fromActivity=True):
         json.dump(oldSite, open(CRAWLED_JSON_PATH, 'w'))
     except IOError:
         # OLD WEBSITE NOT FOUND, IT'S FIRST RUN, DUMPING WHOLE WEBSITE
-        print(f"{ctime()}crawler.py: {CRAWLED_JSON_PATH}not found, assuming it's first run")
+        print(f"{ctime()}crawler.py: {CRAWLED_JSON_PATH}not found,"
+              "assuming it's first run")
 
         site = __getSiteAsJSON(False)
         json.dump(Q2ADictToSerializable(site), open(CRAWLED_JSON_PATH, 'w'))
@@ -77,17 +78,17 @@ def __diffCheck(questions, oldQuestions):
 
         # TODO: CHECK BEST ANSWER
 
-        # if this element has been just added i don't check differences for childs
+        # if this element was just added i don't check differences for childs
         if(diff[Keys.TYPE] == NOTIFTYPE_ADD):
             continue
-        
+
         # region checking difference of answers
         answers = questions[questionID][Keys.TYPE_ANSWERS]
         try:
             oldAnswers = oldQuestions[questionID][Keys.TYPE_ANSWERS]
         except Exception:
             oldAnswers = {}
-        
+
         for answerID in answers:
             # checking difference of question
             ansDiff = __elementNewOrEdited(answerID, answers, oldAnswers)
@@ -95,7 +96,7 @@ def __diffCheck(questions, oldQuestions):
             if(ansDiff[Keys.TYPE] is not None):
                 differences.append(ansDiff)
 
-            # if this element has been just added i don't check differences for childs
+            # if element was just added i don't check differences for childs
             if(ansDiff[Keys.TYPE] == NOTIFTYPE_ADD):
                 continue
 
@@ -106,29 +107,33 @@ def __diffCheck(questions, oldQuestions):
             except Exception:
                 oldAnswers = {}
             for commentID in comments:
-                commDiff = __elementNewOrEdited(commentID, comments, oldComments)
+                commDiff = __elementNewOrEdited(commentID, comments,
+                                                oldComments)
 
                 if(commDiff[Keys.TYPE] is not None):
                     differences.append(commDiff)
             # endregion
-            
+
         # endregion
-    
+
     return differences
 
 
 def __elementNewOrEdited(elementID, elements, oldElements):
     diff = {Keys.TYPE: None}
+    eID = elementID
     # if question doesn't exists
-    if(elementID not in oldElements):
+    if(eID not in oldElements):
         diff[Keys.TYPE] = NOTIFTYPE_ADD
-        diff[DATA] = elements[elementID]
+        diff[DATA] = elements[eID]
     # if the question has been modified
-    elif(elements[elementID][Keys.LAST_EDIT] != oldElements[elementID][Keys.LAST_EDIT] and elements[elementID][Keys.LAST_EDIT][Keys.WHAT]  not in excluded_keys):
+    elif(elements[eID][Keys.LAST_EDIT] != oldElements[eID][Keys.LAST_EDIT] and
+         elements[eID][Keys.LAST_EDIT][Keys.WHAT] not in excluded_keys):
         diff[Keys.TYPE] = NOTIFTYPE_EDIT
-        diff[DATA] = elements[elementID]
-    
+        diff[DATA] = elements[eID]
+
     return diff
+
 
 if __name__ == '__main__':
     # print(getNotifications())

@@ -69,7 +69,9 @@ Usa uno dei due comandi /start o /stop.''')
             self.bot.sendMessage(chatId, text, parse_mode='HTML',
                                  disable_web_page_preview=False)
         except telepot.exception.BotWasBlockedError:
-            print(ctime(), "L'utente ha bloccato il bot, lo rimuovo dalla lista degli utenti. Il suo ID era:", chatId)
+            print(ctime(), "L'utente ha bloccato il bot,",
+                  "lo rimuovo dalla lista degli utenti. Il suo ID era:",
+                  chatId)
             self.users.discard(chatId)
             self.updateData()
             return
