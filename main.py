@@ -28,11 +28,8 @@ def formatMessage(notification):
         who = data[Keys.LAST_EDIT][Keys.WHO]
         parentWho = answer[Keys.LAST_EDIT][Keys.WHO]
         pWhoLink = buildUserLink(parentWho)
-        if parentWho != who:
-            who = (f'<a href="{buildUserLink(who)}">{who}</a> on '
-                   f'<a href="{pWhoLink}">{parentWho}</a>\'s answer')
-        else:
-            who = f'<a href="{buildUserLink(who)}">{who}</a> on its answer'
+        who = (f'<a href="{buildUserLink(who)}">{who}</a> on '
+                f'<a href="{pWhoLink}">{parentWho}</a>\'s answer')
     title = question[Keys.TITLE]
     questionID = question[Keys.ID]
     title = f'<a href="{buildTitleLink(questionID)}">{title}</a>'
