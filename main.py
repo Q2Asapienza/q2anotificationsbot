@@ -90,7 +90,7 @@ def getWhen(timestamp):
 
 
 def main():
-    crawler.excluded_keys = ['recategorized', 'closed']
+    crawler.excluded_keys = ['recategorized', 'closed', 'retagged']
 
     # initializing telegram bot
     bot = telegrambot.Bot()
